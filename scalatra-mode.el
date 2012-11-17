@@ -16,7 +16,7 @@ routes. Only works if the keyword is followed by the symbols
 '(\"' without any interleaving whitespace.")
 
 (defconst scalatra-mode:url-param-re
-  (concat ":" scala-syntax:varid-re)
+  (concat ":[^:/)\"]*" )
   "A regular expression that should match a parameter in a URL
 matching string.")
 
@@ -51,13 +51,11 @@ string."
 (defconst scalatra-mode:font-lock-keywords
   (list (list 
          'scalatra-mode:mark-route-method 
-         '(1 font-lock-constant-face)
+         '(1 font-lock-preprocessor-face)
          (list 
           scalatra-mode:url-param-re
           (scalatra-mode:limit-route-path) nil
-          '(0 font-lock-constant-face prepend nil)))))
-
-(message "%s" scalatra-mode:font-lock-keywords)
+          '(0 font-lock-preprocessor-face prepend nil)))))
 
 (defun scalatra-mode:turn-on ()
   (message "scalatra-mode on")

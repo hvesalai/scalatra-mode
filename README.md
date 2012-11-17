@@ -1,7 +1,8 @@
 # scalatra-mode - a minor-mode for emacs
 
 This mode provides font-lock for editing scalatra routes. It
-highlights the method and URL parameters.
+highlights the method and URL parameters in
+font-lock-preprocessor-face.
 
 ## Setting the mode up for use
 
