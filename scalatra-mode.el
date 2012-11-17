@@ -8,7 +8,7 @@
 (require 'scala-mode-syntax)
 
 (defconst scalatra-mode:route-start-re
-  (concat "\\(" 
+  (concat "\\("
           (regexp-opt '("get" "post" "delete" "put") 'words)
           "\\)(\"")
   "A particularly picky regular expression for matching scalatra
@@ -45,24 +45,21 @@ just before the URL matching string."
   "Expects the position to be just before the URL matching
 string."
   (when (looking-at-p scala-syntax:oneLineStringLiteral-re)
-    (message "limit at %d" (match-end 0))
     (match-end 0)))
 
 (defconst scalatra-mode:font-lock-keywords
-  (list (list 
-         'scalatra-mode:mark-route-method 
+  (list (list
+         'scalatra-mode:mark-route-method
          '(1 font-lock-preprocessor-face)
-         (list 
+         (list
           scalatra-mode:url-param-re
           (scalatra-mode:limit-route-path) nil
           '(0 font-lock-preprocessor-face prepend nil)))))
 
 (defun scalatra-mode:turn-on ()
-  (message "scalatra-mode on")
   (font-lock-add-keywords nil
                           scalatra-mode:font-lock-keywords))
 
 (defun scalatra-mode:turn-off ()
-  (message "scalatra-mode off")
   (font-lock-remove-keywords nil
                              scalatra-mode:font-lock-keywords))

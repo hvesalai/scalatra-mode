@@ -19,8 +19,9 @@ git clone git://github.com/hvesalai/scalatra-mode.git
 ```lisp
 (add-to-list 'load-path "/path/to/scalatra-mode/")
 
+(require 'scalatra-mode)
+
 (add-hook 'scala-mode-hook '(lambda ()
-  (require 'scalatra-mode)
   (scalatra-mode)
 ))
 ```
