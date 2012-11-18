@@ -53,6 +53,39 @@ free to place anywhere in the file (e.g. at the end):
 Lastly you can start the mode manually for any buffer. Just use
 **M-x** *scalatra-mode* to start or stop the mode for a buffer.
 
+## What exactly is highlighted?
+
+The highlighting is particularly picky on what it highlights. This is
+to avoid it highlighting any other scala code. 
+
+A route is highlighted only if all the following conditions are true:
+
+1. the method (get, post, delete, put) is the first on the line
+
+2. the method is separated from preceding code with at least one empty
+  line, or the preceding code is terminated by `;`
+
+3. the method has parameters and the first parameter is a string. The parameter parentheses has to be right after the method name (no space allowed).
+
+4. the method is followed by a block
+
+Examples:
+
+```
+
+// this will be highlighted
+post("/customer/:id") {
+}
+
+// the following will not be highlighted
+get ("/customer/:id") // breaks rules 3 an 4
+foo.
+get("/customers") { // breaks rule 2
+
+}
+/* zot */ get ("/orders") { // breaks rule 1
+}
+
 ## Credits
 
 Mode development: Heikki Vesalainen

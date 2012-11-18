@@ -8,12 +8,13 @@
 (require 'scala-mode-syntax)
 
 (defconst scalatra-mode:route-start-re
-  (concat "\\("
+  (concat "^\\s *\\("
           (regexp-opt '("get" "post" "delete" "put") 'words)
           "\\)(\"")
   "A particularly picky regular expression for matching scalatra
-routes. Only works if the keyword is followed by the symbols
-'(\"' without any interleaving whitespace.")
+routes. Only works if the keyword is first on the line and is
+followed by the symbols '(\"' without any interleaving
+whitespace.")
 
 (defconst scalatra-mode:url-param-re
   (concat ":[^:/)\"]*" )
@@ -36,10 +37,18 @@ for scalatra routes"
 nil. Match data group 1 is the method name. Position will be
 just before the URL matching string."
   (when (re-search-forward scalatra-mode:route-start-re limit t)
-    (goto-char (- (match-end 0) 1))
-    (if (looking-at-p scala-syntax:oneLineStringLiteral-re)
-        t
-      (scalatra-mode:mark-route-method limit))))
+    (backward-char)
+    (or (and (save-excursion (goto-char (match-beginning 0))
+                             (scala-syntax:skip-backward-ignorable)
+                             (or
+                              (/= 0 (skip-chars-backward "{)};"))
+                              (scala-syntax:looking-back-empty-line-p)))
+             (looking-at-p scala-syntax:oneLineStringLiteral-re)
+             (save-excursion (backward-char)
+                             (forward-list)
+                             (scala-syntax:skip-forward-ignorable)
+                             (looking-at-p "[{(]")))
+        (scalatra-mode:mark-route-method limit))))
 
 (defun scalatra-mode:limit-route-path ()
   "Expects the position to be just before the URL matching
