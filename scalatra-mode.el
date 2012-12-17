@@ -4,8 +4,8 @@
 
 (provide 'scalatra-mode)
 
-(require 'scala-mode)
-(require 'scala-mode-syntax)
+(require 'scala-mode2)
+(require 'scala-mode2-syntax)
 
 (defconst scalatra-mode:route-start-re
   (concat "^\\s *\\("
